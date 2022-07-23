@@ -14,6 +14,8 @@ class _logState extends State<log> {
   var mycontrollerpass=TextEditingController();
   var formkey = GlobalKey<FormState>();
   bool chek=true;
+
+  bool ispassword= false ;
   @override
 
   Widget build(BuildContext context) {
@@ -75,7 +77,13 @@ class _logState extends State<log> {
                         label: 'password',
                         hinttext: 'write password',
                         icon:Icon(Icons.lock) ,
-                        suficon: Icon(Icons.remove_red_eye_outlined),
+                        suficon: ispassword ? Icons.visibility_off: Icons.visibility ,
+                        ispassword: ispassword,
+                        suffexpressed: (){
+                      setState(() {
+                        ispassword =!ispassword;
+                      });
+                        },
                         validate: (value){
                           if (value.isEmpty){
                             return 'password is empty';

@@ -23,18 +23,19 @@ Widget default_Form({
    required String label,
    required String hinttext,
    required Widget icon,
-   Widget? suficon ,
-   bool boolen= false ,
+   IconData? suficon ,
+   suffexpressed,
+   bool ispassword= false ,
 }) => Container(
    child: TextFormField(
       validator: validate,
       controller: control,
       keyboardType: keyboard,
       onChanged:change,
-      obscureText:boolen,
+      obscureText:ispassword,
       decoration:   InputDecoration(
          prefixIcon: icon,
-         suffixIcon: suficon,
+         suffixIcon: suficon !=null ? IconButton(icon:Icon(suficon,) ,onPressed: suffexpressed,):null,
          label: Text(label),
          labelStyle:const TextStyle(
              color: Colors.black,
