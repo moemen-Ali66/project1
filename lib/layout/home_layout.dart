@@ -38,15 +38,15 @@ class _home_layoutState extends State<home_layout> {
           onPressed: ()
           {
             if(isbottomsheet!){
+              Navigator.pop(context);
+              isbottomsheet=false;
+            }
+            else{
               scaffoldkey.currentState?.showBottomSheet((context) => Container(
                 width: double.infinity,
                 height: 120,
                 color: Colors.red,
               ));
-            }
-            else{
-              Navigator.pop(context);
-              isbottomsheet=false;
             }
 
           },) ,
