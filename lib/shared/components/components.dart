@@ -19,6 +19,7 @@ Widget default_Form({
    required TextEditingController control,
    required TextInputType keyboard,
      change,
+   onTap,
    required  validate,
    required String label,
    required String hinttext,
@@ -28,6 +29,7 @@ Widget default_Form({
    bool ispassword= false ,
 }) => Container(
    child: TextFormField(
+      onTap: onTap,
       validator: validate,
       controller: control,
       keyboardType: keyboard,

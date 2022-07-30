@@ -26,9 +26,10 @@ class _home_layoutState extends State<home_layout> {
   ];
   var scaffoldkey=GlobalKey<ScaffoldState>();
   var validatetkey=GlobalKey<FormState>();
-  bool? isbottomsheet=false;
+  bool isbottomsheet=false;
   IconData? fapicon=Icons.edit;
   var taskscontroller =TextEditingController();
+  var timecontroller =TextEditingController();
 //.  Database? database;
   @override
   Widget build(BuildContext context)  {
@@ -41,40 +42,68 @@ class _home_layoutState extends State<home_layout> {
          child:Icon(fapicon),
           onPressed: ()
           {
-            if(isbottomsheet!){
-              Navigator.pop(context);
+            if(isbottomsheet){
               isbottomsheet=false;
+              setState(() {
+                fapicon=Icons.edit;
+              });
             }
             else{
 
               scaffoldkey.currentState?.showBottomSheet((context) => Form(
                 key: validatetkey,
-                child: Column(
-                  mainAxisSize:MainAxisSize.min ,
-                  children: [
-                    default_Form(
-                    control:taskscontroller ,
-                    keyboard: TextInputType.text,
-                    validate: (value){
-                      if(value.isEmpty){
-                        return 'must not be empty';
-                      }else{
-                        return null;
-                      }
-                    },
-                    label: 'My Tasks',
-                    hinttext: 'Entre your Tasks',
-                    icon: Icon(Icons.task)),
-                  ],
+                child: Container(
+                  color: Colors.grey,
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize:MainAxisSize.min ,
+                    children: [
+                      default_Form(
+                        onTap: (){
+                          print(taskscontroller);
+                        },
+                      control:taskscontroller ,
+                      keyboard: TextInputType.text,
+                      validate: (value){
+                        if(value.isEmpty){
+                          return 'must not be empty';
+                        }else{
+                          return null;
+                        }
+                      },
+                      label: 'Task title',
+                      hinttext: 'Entre your Tasks',
+                      icon: Icon(Icons.title)),
+                      SizedBox(height: 15.0,),
+                      default_Form(
+                          onTap: (){
+                            showTimePicker(context: context, initialTime: TimeOfDay.now());
+                           },
+                          control:timecontroller ,
+                          keyboard: TextInputType.datetime,
+                          validate: (value){
+                            if(value.isEmpty){
+                              return 'must not be empty';
+                            }else{
+                              return null;
+                            }
+                          },
+                          label: 'Task time',
+                          hinttext: 'Entre the time',
+                          icon: Icon(Icons.timer)),
+
+                    ],
+              ),
                 ),
               ));
               isbottomsheet=true;
               setState(() {
                 fapicon=Icons.add;
+                if(validatetkey.currentState!.validate()){
+                }
               });
 
             }
-
           },) ,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curentindex,
