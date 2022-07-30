@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/modules/Archive%20Tasks/archive%20tasks.dart';
 import 'package:login/modules/Done%20Tasks/done%20tasks.dart';
 import 'package:login/modules/New%20Tasks/new%20tasks.dart';
+import 'package:login/shared/components/components.dart';
 // import 'package:sqflite/sqflite.dart';
 
 class home_layout extends StatefulWidget {
@@ -24,7 +25,10 @@ class _home_layoutState extends State<home_layout> {
     'archive_Tasks',
   ];
   var scaffoldkey=GlobalKey<ScaffoldState>();
+  var validatetkey=GlobalKey<FormState>();
   bool? isbottomsheet=false;
+  IconData? fapicon=Icons.edit;
+  var taskscontroller =TextEditingController();
 //.  Database? database;
   @override
   Widget build(BuildContext context)  {
@@ -34,7 +38,7 @@ class _home_layoutState extends State<home_layout> {
         title: Text(title[curentindex]),
       ),
        floatingActionButton:FloatingActionButton(
-         child:Icon(Icons.eleven_mp),
+         child:Icon(fapicon),
           onPressed: ()
           {
             if(isbottomsheet!){
@@ -42,11 +46,33 @@ class _home_layoutState extends State<home_layout> {
               isbottomsheet=false;
             }
             else{
-              scaffoldkey.currentState?.showBottomSheet((context) => Container(
-                width: double.infinity,
-                height: 120,
-                color: Colors.red,
+
+              scaffoldkey.currentState?.showBottomSheet((context) => Form(
+                key: validatetkey,
+                child: Column(
+                  mainAxisSize:MainAxisSize.min ,
+                  children: [
+                    default_Form(
+                    control:taskscontroller ,
+                    keyboard: TextInputType.text,
+                    validate: (value){
+                      if(value.isEmpty){
+                        return 'must not be empty';
+                      }else{
+                        return null;
+                      }
+                    },
+                    label: 'My Tasks',
+                    hinttext: 'Entre your Tasks',
+                    icon: Icon(Icons.task)),
+                  ],
+                ),
               ));
+              isbottomsheet=true;
+              setState(() {
+                fapicon=Icons.add;
+              });
+
             }
 
           },) ,
