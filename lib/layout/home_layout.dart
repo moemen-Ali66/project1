@@ -30,6 +30,7 @@ class _home_layoutState extends State<home_layout> {
   IconData? fapicon=Icons.edit;
   var titlecontroller =TextEditingController();
   var timecontroller =TextEditingController();
+  var Datecontroller =TextEditingController();
 //.  Database? database;
   @override
   Widget build(BuildContext context)  {
@@ -67,8 +68,6 @@ class _home_layoutState extends State<home_layout> {
                       validate: (value){
                         if(value.isEmpty){
                           return 'must not be empty';
-                        }else {
-                          return null;
                         }
                       },
                       label: 'Task title',
@@ -78,20 +77,33 @@ class _home_layoutState extends State<home_layout> {
                       default_Form(
                           onTap: (){
                             showTimePicker(context: context, initialTime: TimeOfDay.now());
-                            timecontroller.text=TimeOfDay.now().toString();
+                            timecontroller.text=TimeOfDay.now().format(context).toString();
                            },
                           control:timecontroller ,
                           keyboard: TextInputType.datetime,
                           validate: (value){
                             if(value.isEmpty){
                               return 'must not be empty';
-                            }else{
-                              return null;
                             }
+
                           },
                           label: 'Task time',
                           hinttext: 'Entre the time',
                           icon: Icon(Icons.timer)),
+                      SizedBox(height: 15.0,),
+                      default_Form(
+                          onTap: (){
+                          },
+                          control:Datecontroller ,
+                          keyboard: TextInputType.datetime,
+                          validate: (value){
+                            if(value.isEmpty){
+                              return 'must not be empty';
+                            }
+                          },
+                          label: 'Task date',
+                          hinttext: 'Entre the date',
+                          icon: Icon(Icons.date_range_outlined)),
 
                     ],
               ),
