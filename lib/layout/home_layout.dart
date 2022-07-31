@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:login/modules/Archive%20Tasks/archive%20tasks.dart';
 import 'package:login/modules/Done%20Tasks/done%20tasks.dart';
 import 'package:login/modules/New%20Tasks/new%20tasks.dart';
 import 'package:login/shared/components/components.dart';
+import 'package:sqflite/sqflite.dart';
 // import 'package:sqflite/sqflite.dart';
 
 class home_layout extends StatefulWidget {
@@ -31,7 +33,7 @@ class _home_layoutState extends State<home_layout> {
   var titlecontroller =TextEditingController();
   var timecontroller =TextEditingController();
   var Datecontroller =TextEditingController();
-//.  Database? database;
+  Database? database;
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
@@ -40,14 +42,17 @@ class _home_layoutState extends State<home_layout> {
         title: Text(title[curentindex]),
       ),
        floatingActionButton:FloatingActionButton(
-         child:Icon(fapicon),
           onPressed: ()
           {
+            insertdatabase(title: titlecontroller.text,time: timecontroller.text,date: Datecontroller.text).then((value) => null);
             if(isbottomsheet){
+              if(Formkey.currentState!.validate()){
+              isbottomsheet=false;
               setState(() {
-                isbottomsheet=false;
-                fapicon=Icons.edit;
+                isbottomsheet==false?fapicon=Icons.edit:fapicon=Icons.add;
               });
+            }
+
             }
             else{
 
@@ -94,6 +99,12 @@ class _home_layoutState extends State<home_layout> {
                       SizedBox(height: 15.0,),
                       default_Form(
                           onTap: (){
+                            showDatePicker(context: context,
+                                initialDate:DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.parse('2025/8/1')).then((value) {                            Datecontroller.text=DateFormat.yMMMd().toString();
+                            Datecontroller.text=DateFormat.yMMMd().toString();
+                            });
                           },
                           control:Datecontroller ,
                           keyboard: TextInputType.datetime,
@@ -111,16 +122,15 @@ class _home_layoutState extends State<home_layout> {
               ),
                 ),
               ));
-
+              isbottomsheet=true;
               setState(() {
-                isbottomsheet=true;
                 fapicon=Icons.add;
-                if(Formkey.currentState!.validate()){
-                }
               });
 
             }
-          },) ,
+          },
+         child:Icon(fapicon),
+       ) ,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curentindex,
         items: [
@@ -143,35 +153,35 @@ class _home_layoutState extends State<home_layout> {
     return  'ahmed ali';
   }
 
- //  void createdatabase()async
- //  {
- //      database=await openDatabase(
- //    'todo.db',
- //   version: 1,
- //   onCreate: (database,version){
- //      print('database created');
- //      database.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT,date TEXT,time TEXT,status TEXT ) ').then((value){
- //        print('table is creating');
- //      }).catchError((error){
- //        print('error in creating table${error.toString()}');
- //      });
- //   },
- //   onOpen: (database){
- //     print('database opened');
- //
- //   },
- //
- // );
- //
- //  }
- //  void insertdatabase(){
- //    database!.transaction((txn) {
- //      txn.rawInsert('INSERT INTO tasks(title,date,time,status) values("first task","2202","12:00","new",)').then((value){
- //        print('table is inserting');
- //      }).catchError((error){print('error ${error.toString()}');});
- //      return null;
- //    });
- //  }
+  void createdatabase()async
+  {
+      database=await openDatabase(
+    'todo.db',
+   version: 1,
+   onCreate: (database,version){
+      print('database created');
+      database.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT,date TEXT,time TEXT,status TEXT ) ').then((value){
+        print('table is creating');
+      }).catchError((error){
+        print('error in creating table${error.toString()}');
+      });
+   },
+   onOpen: (database){
+     print('database opened');
+
+   },
+
+ );
+
+  }
+  Future insertdatabase({required title,required time,required date}) async{
+   return  await database!.transaction((txn) async{
+      txn.rawInsert('INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new",)').then((value){
+        print('table is inserting');
+      }).catchError((error){print('error ${error.toString()}');});
+      return null;
+    });
+  }
 }
 // HADLING ERROR
 // try{
