@@ -25,10 +25,10 @@ class _home_layoutState extends State<home_layout> {
     'archive_Tasks',
   ];
   var scaffoldkey=GlobalKey<ScaffoldState>();
-  var validatetkey=GlobalKey<FormState>();
+  var Formkey=GlobalKey<FormState>();
   bool isbottomsheet=false;
   IconData? fapicon=Icons.edit;
-  var taskscontroller =TextEditingController();
+  var titlecontroller =TextEditingController();
   var timecontroller =TextEditingController();
 //.  Database? database;
   @override
@@ -50,24 +50,24 @@ class _home_layoutState extends State<home_layout> {
             }
             else{
 
-              scaffoldkey.currentState?.showBottomSheet((context) => Form(
-                key: validatetkey,
-                child: Container(
-                  color: Colors.grey,
-                  padding: EdgeInsets.all(20.0),
+              scaffoldkey.currentState?.showBottomSheet((context) => Container(
+                color: Colors.grey,
+                padding: EdgeInsets.all(20.0),
+                child: Form(
+                  key: Formkey,
                   child: Column(
                     mainAxisSize:MainAxisSize.min ,
                     children: [
                       default_Form(
                         onTap: (){
-                          print(taskscontroller);
+                          print(titlecontroller);
                         },
-                      control:taskscontroller ,
+                      control:titlecontroller ,
                       keyboard: TextInputType.text,
                       validate: (value){
                         if(value.isEmpty){
                           return 'must not be empty';
-                        }else{
+                        }else {
                           return null;
                         }
                       },
@@ -78,6 +78,7 @@ class _home_layoutState extends State<home_layout> {
                       default_Form(
                           onTap: (){
                             showTimePicker(context: context, initialTime: TimeOfDay.now());
+                            timecontroller.text=TimeOfDay.now().toString();
                            },
                           control:timecontroller ,
                           keyboard: TextInputType.datetime,
@@ -99,7 +100,7 @@ class _home_layoutState extends State<home_layout> {
               isbottomsheet=true;
               setState(() {
                 fapicon=Icons.add;
-                if(validatetkey.currentState!.validate()){
+                if(Formkey.currentState!.validate()){
                 }
               });
 
