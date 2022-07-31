@@ -5,7 +5,7 @@ import 'package:login/modules/Done%20Tasks/done%20tasks.dart';
 import 'package:login/modules/New%20Tasks/new%20tasks.dart';
 import 'package:login/shared/components/components.dart';
 import 'package:sqflite/sqflite.dart';
-// import 'package:sqflite/sqflite.dart';
+
 
 class home_layout extends StatefulWidget {
   const home_layout({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class _home_layoutState extends State<home_layout> {
   var titlecontroller =TextEditingController();
   var timecontroller =TextEditingController();
   var Datecontroller =TextEditingController();
-  Database? database;
+  Database ?database;
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
@@ -44,11 +44,15 @@ class _home_layoutState extends State<home_layout> {
        floatingActionButton:FloatingActionButton(
           onPressed: ()
           {
-            insertdatabase(title: titlecontroller.text,time: timecontroller.text,date: Datecontroller.text).then((value) => null);
+            insertdatabase(
+                title: titlecontroller.text,
+                time: timecontroller.text,
+                date: Datecontroller.text).then((value) => null);
             if(isbottomsheet){
               if(Formkey.currentState!.validate()){
               isbottomsheet=false;
               setState(() {
+                Navigator.pop(context);
                 isbottomsheet==false?fapicon=Icons.edit:fapicon=Icons.add;
               });
             }
@@ -98,16 +102,19 @@ class _home_layoutState extends State<home_layout> {
                           icon: Icon(Icons.timer)),
                       SizedBox(height: 15.0,),
                       default_Form(
+
+                          control:Datecontroller ,
+                          keyboard: TextInputType.datetime,
                           onTap: (){
                             showDatePicker(context: context,
                                 initialDate:DateTime.now(),
                                 firstDate: DateTime.now(),
                                 lastDate: DateTime.parse('2025/8/1')).then((value) {                            Datecontroller.text=DateFormat.yMMMd().toString();
                             Datecontroller.text=DateFormat.yMMMd().toString();
+                            }).catchError((error){
+                              print('DateTime is error${error.toString()}');
                             });
                           },
-                          control:Datecontroller ,
-                          keyboard: TextInputType.datetime,
                           validate: (value){
                             if(value.isEmpty){
                               return 'must not be empty';
@@ -177,8 +184,8 @@ class _home_layoutState extends State<home_layout> {
   Future insertdatabase({required title,required time,required date}) async{
    return  await database!.transaction((txn) async{
       txn.rawInsert('INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new",)').then((value){
-        print('table is inserting');
-      }).catchError((error){print('error ${error.toString()}');});
+        print('values is inserting');
+      }).catchError((error){print('error in database for insert${error.toString()}');});
       return null;
     });
   }
