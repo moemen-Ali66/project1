@@ -69,6 +69,7 @@ class _home_layoutState extends State<home_layout> {
                         if(value.isEmpty){
                           return 'must not be empty';
                         }
+                        return null;
                       },
                       label: 'Task title',
                       hinttext: 'Entre your Tasks',
@@ -85,7 +86,7 @@ class _home_layoutState extends State<home_layout> {
                             if(value.isEmpty){
                               return 'must not be empty';
                             }
-
+                            return null;
                           },
                           label: 'Task time',
                           hinttext: 'Entre the time',
@@ -100,6 +101,7 @@ class _home_layoutState extends State<home_layout> {
                             if(value.isEmpty){
                               return 'must not be empty';
                             }
+                            return null;
                           },
                           label: 'Task date',
                           hinttext: 'Entre the date',
@@ -109,8 +111,9 @@ class _home_layoutState extends State<home_layout> {
               ),
                 ),
               ));
-              isbottomsheet=true;
+
               setState(() {
+                isbottomsheet=true;
                 fapicon=Icons.add;
                 if(Formkey.currentState!.validate()){
                 }
