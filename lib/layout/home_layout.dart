@@ -44,8 +44,8 @@ class _home_layoutState extends State<home_layout> {
           onPressed: ()
           {
             if(isbottomsheet){
-              isbottomsheet=false;
               setState(() {
+                isbottomsheet=false;
                 fapicon=Icons.edit;
               });
             }
