@@ -3,6 +3,7 @@ import 'package:login/modules/counter/counter.dart';
 import 'package:login/modules/login/log.dart';
 import 'package:login/modules/login/logintwo.dart';
 import 'layout/home_layout.dart';
+import 'modules/New Tasks/new tasks.dart';
 import 'modules/bmi/BMI calculate.dart';
 import 'modules/result/BMIresualt.dart';
 import 'modules/messnger/massenger.dart';

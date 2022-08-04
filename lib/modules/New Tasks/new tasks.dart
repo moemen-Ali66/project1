@@ -5,6 +5,9 @@ class new_tasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(child: Text('new_tasks',style: TextStyle(fontSize:50 ),));
+    return  CircleAvatar(
+      radius: 40.0,
+      child: Text('02:00 pm',style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+    );
   }
 }

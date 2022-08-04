@@ -7,7 +7,7 @@ import 'package:login/shared/components/components.dart';
 import 'package:sqflite/sqflite.dart';
 
 class home_layout extends StatefulWidget {
-  const home_layout({Key? key}) : super(key: key);
+    home_layout({Key? key}) : super(key: key);
 
   @override
   State<home_layout> createState() => _home_layoutState();
@@ -32,7 +32,7 @@ class _home_layoutState extends State<home_layout> {
   var titlecontroller = TextEditingController();
   var timecontroller = TextEditingController();
   var Datecontroller = TextEditingController();
-  Database? database;
+  late Database database;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,9 +182,8 @@ class _home_layoutState extends State<home_layout> {
     );
   }
 
-  Future createdatabase() async {
-    database !=
-        await openDatabase(
+  void createdatabase() async {
+    database =await openDatabase(
           'todo.db',
           version: 1,
           onCreate: (database, version) {
@@ -202,7 +201,7 @@ class _home_layoutState extends State<home_layout> {
   }
 
   Future insertdatabase({required title, required time, required date}) async {
-    return await database!.transaction((txn) async {
+    return await database.transaction((txn) async {
       txn.rawInsert('INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new",)').then((value) {
         print('values is inserting');
       }).catchError((error) {
@@ -210,6 +209,10 @@ class _home_layoutState extends State<home_layout> {
       });
       return null;
     });
+  }
+
+  Future<List<Map>>getdatabase() async{
+   return await database.rawQuery('SELECT * FROM tasks');
   }
 }
 // HADLING ERROR
