@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 Widget default_button({
   double width=double.infinity,
     Color background=Colors.blue,
@@ -48,3 +47,27 @@ Widget default_Form({
          border: OutlineInputBorder(),
       ),
    ),);
+   Widget BUILDITEMTASKS(tasks,index)=>Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+         children: [
+            Row(
+               children: [
+                  CircleAvatar(
+                     radius: 40.0,
+                     child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(tasks[index]['time'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+                     ),
+                  ),
+                  SizedBox(width: 20.0,),
+                  Column(children: [
+                     Text(tasks[index]['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
+                     Text(tasks[index]['date'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
+
+                  ],)
+               ],
+            ),
+         ],
+      ),
+   );

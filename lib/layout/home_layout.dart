@@ -4,10 +4,11 @@ import 'package:login/modules/Archive%20Tasks/archive%20tasks.dart';
 import 'package:login/modules/Done%20Tasks/done%20tasks.dart';
 import 'package:login/modules/New%20Tasks/new%20tasks.dart';
 import 'package:login/shared/components/components.dart';
+import 'package:login/shared/components/constans.dart';
 import 'package:sqflite/sqflite.dart';
 
 class home_layout extends StatefulWidget {
-    home_layout({Key? key}) : super(key: key);
+  home_layout({Key? key}) : super(key: key);
 
   @override
   State<home_layout> createState() => _home_layoutState();
@@ -15,6 +16,7 @@ class home_layout extends StatefulWidget {
 
 class _home_layoutState extends State<home_layout> {
   int curentindex = 0;
+
   List<Widget> screens = [
     new_tasks(),
     done_tasks(),
@@ -33,6 +35,13 @@ class _home_layoutState extends State<home_layout> {
   var timecontroller = TextEditingController();
   var Datecontroller = TextEditingController();
   late Database database;
+
+  @override
+  void initState() {
+    createdatabase();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +58,20 @@ class _home_layoutState extends State<home_layout> {
                       time: timecontroller.text,
                       date: Datecontroller.text)
                   .then((value) {
+                    getdatabase(database).then((value) {
+                      tasks=value;
+                    } );
                 isbottomsheet = false;
+                titlecontroller.clear();
+                timecontroller.clear();
+                Datecontroller.clear();
                 setState(() {
                   Navigator.pop(context);
                   isbottomsheet = false;
                   fapicon = Icons.edit;
                 });
+              }).catchError((onError) {
+                print(onError);
               });
             }
           } else {
@@ -149,9 +166,12 @@ class _home_layoutState extends State<home_layout> {
                 .closed
                 .then((value) {
               isbottomsheet = false;
+              titlecontroller.clear();
+              timecontroller.clear();
+              Datecontroller.clear();
               setState(() {
-                Navigator.pop(context);
                 fapicon = Icons.edit;
+                TextFormField();
               });
             });
             isbottomsheet = true;
@@ -164,7 +184,7 @@ class _home_layoutState extends State<home_layout> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curentindex,
-        items: [
+        items:const [
           BottomNavigationBarItem(
               icon: Icon(Icons.task_alt_outlined), label: 'Tasks'),
           BottomNavigationBarItem(
@@ -178,31 +198,47 @@ class _home_layoutState extends State<home_layout> {
           });
         },
       ),
-      body: screens[curentindex],
+      body: tasks.length==0? Center(child: CircularProgressIndicator()): screens[curentindex],
     );
   }
 
   void createdatabase() async {
-    database =await openDatabase(
-          'todo.db',
-          version: 1,
-          onCreate: (database, version) {
-            print('database created');
-            database.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT,date TEXT,time TEXT,status TEXT ) ').then((value) {
-              print('table is creating');
-            }).catchError((error) {
-              print('error in creating table${error.toString()}');
-            });
-          },
-          onOpen: (database) {
-            print('database opened');
-          },
-        );
+    database = await openDatabase(
+      'todo.db',
+      version: 1,
+      onCreate: (database, version) {
+        print('database created');
+        database
+            .execute(
+                'CREATE TABLE tasks(id INTEGER PRIMARY KEY,title TEXT,date TEXT,time TEXT,status TEXT ) ')
+            .then((value) {
+          print('table is creating');
+        }).catchError((error) {
+          print('error in creating table${error.toString()}');
+        });
+      },
+      onOpen: (database) {
+        getdatabase(database).then((value) {
+          tasks=value;
+          print(tasks);
+        } );
+        print('database opened');
+      },
+    );
   }
 
   Future insertdatabase({required title, required time, required date}) async {
     return await database.transaction((txn) async {
-      txn.rawInsert('INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new",)').then((value) {
+      txn
+          .rawInsert(
+              'INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new")')
+          .then((value) {
+        getdatabase(database).then((value) {
+          setState(() {
+            tasks=value;
+          });
+          print(tasks);
+        } );
         print('values is inserting');
       }).catchError((error) {
         print('error in database for insert${error.toString()}');
@@ -211,9 +247,10 @@ class _home_layoutState extends State<home_layout> {
     });
   }
 
-  Future<List<Map>>getdatabase() async{
-   return await database.rawQuery('SELECT * FROM tasks');
+  Future<List<Map>> getdatabase(database) async {
+    return await database.rawQuery('SELECT * FROM tasks');
   }
+
 }
 // HADLING ERROR
 // try{
