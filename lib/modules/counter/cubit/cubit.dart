@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/modules/counter/counter.dart';
