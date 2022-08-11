@@ -11,11 +11,13 @@ class counter extends StatelessWidget {
       create: (BuildContext context) =>CounterCubit(),
       child: BlocConsumer<CounterCubit,CounterStates>(
         listener: (context,state){
-          if(state is CounterMinusStates){
-            print('minus state ${state.count}');
-          }
-          if(state is CounterPlusStates){
-            print('plus state ${state.count}');
+          {
+            if(state is CounterMinusStates){
+              print('minus state ${state.count}');
+            }
+            if(state is CounterPlusStates){
+              print('plus state ${state.count}');
+            }
           }
         },
         builder: (context,state)=>Scaffold(
