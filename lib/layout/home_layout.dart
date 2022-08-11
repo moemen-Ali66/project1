@@ -24,7 +24,7 @@ class home_layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-    create:(context)=>AppCubit()..database,
+    create:(context)=>AppCubit()..createdatabase(),
     child: BlocConsumer<AppCubit,AppState>(
       listener: (context,state)=>{
         if(state is AppInsertDataBaseStates){
