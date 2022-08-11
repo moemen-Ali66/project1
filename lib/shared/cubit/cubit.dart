@@ -46,14 +46,10 @@ class AppCubit extends Cubit<AppState>{
         });
       },
       onOpen: (database) {
-        getdatabase(database).then((value) {
-          tasks=value;
-          print(tasks);
-          emit(AppGetDataBaseStates());
-        } );
+        getdatabase(database);
         print('database opened');
-      },
-    ).then((value) {
+          emit(AppGetDataBaseStates());
+        }).then((value) {
       database=value;
       emit(AppCreateDataBaseStates());
     });
@@ -65,17 +61,14 @@ class AppCubit extends Cubit<AppState>{
           'INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new")')
           .then((value) {
         emit(AppInsertDataBaseStates());
-        getdatabase(database).then((value) {
-          tasks=value;
-          print(tasks);
-          emit(AppGetDataBaseStates());
-        } );
         print('values is inserting');
+        getdatabase(database);
+        emit(AppGetDataBaseStates());
+
       }).catchError((error) {
         print('error in database for insert${error.toString()}');
       });
       return null;
-    }).then((value) {
     });
   }
 
