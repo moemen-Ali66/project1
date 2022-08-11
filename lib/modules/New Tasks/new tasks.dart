@@ -14,7 +14,8 @@ class new_tasks extends StatelessWidget {
     return  BlocConsumer<AppCubit,AppState>(
       listener: (context,state)=>{},
       builder:(context,state)=>ListView.separated(
-        itemBuilder: (context,index)=> BUILDITEMTASKS(tasks,index), separatorBuilder: (context,index)=>Padding(
+        itemBuilder: (context,index)=> BUILDITEMTASKS(tasks,index),
+        separatorBuilder: (context,index)=>Padding(
         padding: const EdgeInsets.only(left: 20),
         child: Container(
           width: double.infinity,

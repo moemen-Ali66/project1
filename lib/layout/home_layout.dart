@@ -40,7 +40,7 @@ class home_layout extends StatelessWidget {
               title: Text(Cubit.title[Cubit.curentindex]),
             ),
          body:ConditionalBuilder(
-          condition: true,
+          condition: state is! AppGetDataBaseLoadingStates,
           fallback:(context)=>Center(child: CircularProgressIndicator(),) ,
           builder:(context)=>Cubit.screens[Cubit.curentindex],),
           //Cubit.tasks.length == 0
@@ -53,15 +53,7 @@ class home_layout extends StatelessWidget {
                     Cubit.insertdatabase(
                             title: titlecontroller.text,
                             time: timecontroller.text,
-                            date: Datecontroller.text)
-                        .then((value) {
-                      Cubit.getdatabase(Cubit.database).then((value) {
-                        Cubit.tasks = value;
-                      });
-                    }).catchError((onError) {
-                      print(onError);
-                    }
-                    );
+                            date: Datecontroller.text);
                     Cubit.changebottomsheet(isShow: false, icon: Icons.edit);
                   }
                 } else {

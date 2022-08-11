@@ -59,11 +59,12 @@ class AppCubit extends Cubit<AppState>{
     });
   }
 
-  Future insertdatabase({required title, required time, required date}) async {
+   insertdatabase({required title, required time, required date}) async {
      await database.transaction((txn) async {
       txn.rawInsert(
           'INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new")')
           .then((value) {
+        emit(AppInsertDataBaseStates());
         getdatabase(database).then((value) {
           tasks=value;
           print(tasks);
@@ -75,11 +76,11 @@ class AppCubit extends Cubit<AppState>{
       });
       return null;
     }).then((value) {
-      emit(AppInsertDataBaseStates());
     });
   }
 
   Future<List<Map>> getdatabase(database) async {
+    emit(AppGetDataBaseLoadingStates());
     return await database.rawQuery('SELECT * FROM tasks');
   }
 
