@@ -53,7 +53,7 @@ class home_layout extends StatelessWidget {
                     Cubit.insertdatabase(
                             title: titlecontroller.text,
                             time: timecontroller.text,
-                            date: Datecontroller.text);
+                            date: Datecontroller.text,);
                     Cubit.changebottomsheet(isShow: false, icon: Icons.edit);
                   }
                 } else {
@@ -86,9 +86,7 @@ class home_layout extends StatelessWidget {
                                         showTimePicker(
                                             context: context,
                                             initialTime: TimeOfDay.now());
-                                        timecontroller.text = TimeOfDay.now()
-                                            .format(context)
-                                            .toString();
+                                        timecontroller.text = TimeOfDay.now().format(context).toString();
                                       },
                                       control: timecontroller,
                                       keyboard: TextInputType.datetime,

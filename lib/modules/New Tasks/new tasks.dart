@@ -9,12 +9,12 @@ import 'package:login/shared/cubit/states.dart';
 class new_tasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     var tasks =AppCubit.get(context).tasks;
+     var listtasks =AppCubit.get(context).tasks;
 
     return  BlocConsumer<AppCubit,AppState>(
       listener: (context,state)=>{},
       builder:(context,state)=>ListView.separated(
-        itemBuilder: (context,index)=> BUILDITEMTASKS(tasks,index),
+        itemBuilder: (context,index)=> BUILDITEMTASKS(listtasks,index),
         separatorBuilder: (context,index)=>Padding(
         padding: const EdgeInsets.only(left: 20),
         child: Container(
@@ -22,7 +22,7 @@ class new_tasks extends StatelessWidget {
           height: 1.0,
           color: Colors.grey,
         ),
-      ), itemCount:tasks.length,
+      ), itemCount:listtasks.length,
       ) ,
     );
   }

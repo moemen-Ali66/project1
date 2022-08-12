@@ -46,9 +46,12 @@ class AppCubit extends Cubit<AppState>{
         });
       },
       onOpen: (database) {
-        getdatabase(database);
         print('database opened');
+        getdatabase(database).then((value) {
+          tasks=value;
+          print(tasks);
           emit(AppGetDataBaseStates());
+        });
         }).then((value) {
       database=value;
       emit(AppCreateDataBaseStates());
@@ -60,20 +63,26 @@ class AppCubit extends Cubit<AppState>{
       txn.rawInsert(
           'INSERT INTO tasks(title,date,time,status) values("$title","$time","$date","new")')
           .then((value) {
-        emit(AppInsertDataBaseStates());
         print('values is inserting');
-        getdatabase(database);
-        emit(AppGetDataBaseStates());
+        emit(AppInsertDataBaseStates());
 
       }).catchError((error) {
         print('error in database for insert${error.toString()}');
       });
       return null;
     });
-  }
+     getdatabase(database).then((value) {
+       tasks=value;
+       print(tasks);
+       emit(AppGetDataBaseStates());
+     });
+
+   }
 
   Future<List<Map>> getdatabase(database) async {
+
     emit(AppGetDataBaseLoadingStates());
+
     return await database.rawQuery('SELECT * FROM tasks');
   }
 
