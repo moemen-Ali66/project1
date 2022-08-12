@@ -25,6 +25,9 @@ class AppCubit extends Cubit<AppState>{
     'Done_Tasks',
     'archive_Tasks',
   ];
+ late List<Map>newTasks;
+ late List<Map>doneTasks;
+ late List<Map>arcivedTasks;
 
   void ChangeIndex(int index){
     curentindex=index;
@@ -80,7 +83,9 @@ class AppCubit extends Cubit<AppState>{
    }
 
   Future<List<Map>> getdatabase(database) async {
-
+    newTasks=[];
+    doneTasks=[];
+    arcivedTasks=[];
     emit(AppGetDataBaseLoadingStates());
 
     return await database.rawQuery('SELECT * FROM tasks');
