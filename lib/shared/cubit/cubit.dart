@@ -25,9 +25,9 @@ class AppCubit extends Cubit<AppState>{
     'Done_Tasks',
     'archive_Tasks',
   ];
- late List<Map>newTasks;
- late List<Map>doneTasks;
- late List<Map>archiveTasks;
+  List<Map>newTasks=[];
+  List<Map>doneTasks=[];
+  List<Map>archiveTasks=[];
 
   void ChangeIndex(int index){
     curentindex=index;
@@ -87,8 +87,7 @@ class AppCubit extends Cubit<AppState>{
         else if(element['status']=='done')
           doneTasks.add(element);
 
-        else (element['status']=='archive');
-          archiveTasks.add(element);
+        else archiveTasks.add(element);
 
       });
        emit(AppGetDataBaseStates());
