@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/shared/components/components.dart';
+import 'package:login/shared/cubit/cubit.dart';
+import 'package:login/shared/cubit/states.dart';
 
 class done_tasks extends StatelessWidget {
-  const done_tasks({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('done_tasks',style: TextStyle(fontSize:50 ),));
+    return  BlocConsumer<AppCubit,AppState>(
+
+        listener: (context,state)=>{},
+        builder:(context,state) {
+          var tasks = AppCubit.get(context).doneTasks;
+          return ListView.separated(
+            itemBuilder: (context, index) => BUILDITEMTASKS(tasks, index),
+            separatorBuilder: (context, index) =>
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Container(
+
+                    width: double.infinity,
+                    height: 1.0,
+                    color: Colors.grey,
+                  ),
+                ), itemCount: tasks.length,
+
+          );
+        }
+    );
   }
 }
+

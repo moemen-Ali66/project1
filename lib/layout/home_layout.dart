@@ -85,8 +85,10 @@ class home_layout extends StatelessWidget {
                                       onTap: () {
                                         showTimePicker(
                                             context: context,
-                                            initialTime: TimeOfDay.now());
-                                        timecontroller.text = TimeOfDay.now().format(context).toString();
+                                            initialTime: TimeOfDay.now()).then((value) {
+                                          timecontroller.text=value!.format(context) as String;
+                                        });
+                                        //timecontroller.text = TimeOfDay.now().format(context).toString();
                                       },
                                       control: timecontroller,
                                       keyboard: TextInputType.datetime,

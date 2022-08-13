@@ -57,16 +57,24 @@ Widget default_Form({
                   CircleAvatar(
                      radius: 40.0,
                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(tasks[index]['time'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Text(tasks[index]['date'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
                      ),
                   ),
                   SizedBox(width: 20.0,),
                   Column(children: [
                      Text(tasks[index]['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
-                     Text(tasks[index]['date'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
+                     Text(tasks[index]['time'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
 
-                  ],)
+                  ],),
+                  SizedBox(width: 10.0,),
+                  IconButton(onPressed: (){},
+                     icon:Icon(Icons.check_box),
+                     color: Colors.green,),
+                  SizedBox(width: 10,),
+                  IconButton(onPressed: (){},
+                     icon:Icon(Icons.archive),
+                     color: Colors.grey,),
                ],
             ),
          ],
