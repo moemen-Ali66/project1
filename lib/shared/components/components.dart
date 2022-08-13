@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:login/shared/cubit/cubit.dart';
 Widget default_button({
   double width=double.infinity,
     Color background=Colors.blue,
@@ -48,7 +49,7 @@ Widget default_Form({
          border: OutlineInputBorder(),
       ),
    ),);
-   Widget BUILDITEMTASKS(tasks,index)=>Padding(
+   Widget BUILDITEMTASKS(tasks,index,context)=>Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
          children: [
@@ -68,11 +69,17 @@ Widget default_Form({
 
                   ],),
                   SizedBox(width: 10.0,),
-                  IconButton(onPressed: (){},
+                  IconButton(onPressed: (){
+                     AppCubit.get(context).updatedatabase(status: 'done', id: tasks['id']);
+
+                  },
                      icon:Icon(Icons.check_box),
                      color: Colors.green,),
                   SizedBox(width: 10,),
-                  IconButton(onPressed: (){},
+                  IconButton(onPressed: (){
+                     AppCubit.get(context).updatedatabase(status: 'archive', id: tasks['id']);
+
+                  },
                      icon:Icon(Icons.archive),
                      color: Colors.grey,),
                ],

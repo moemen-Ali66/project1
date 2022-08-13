@@ -18,7 +18,7 @@ class AppCubit extends Cubit<AppState>{
   List<Widget> screens = [
     new_tasks(),
     done_tasks(),
-    archived_tasks(),
+    archive_tasks(),
   ];
   List<String> title = [
     'New_Tasks',
@@ -27,7 +27,7 @@ class AppCubit extends Cubit<AppState>{
   ];
  late List<Map>newTasks;
  late List<Map>doneTasks;
- late List<Map>arcivedTasks;
+ late List<Map>archiveTasks;
 
   void ChangeIndex(int index){
     curentindex=index;
@@ -76,20 +76,20 @@ class AppCubit extends Cubit<AppState>{
   void getdatabase(database)   {
     newTasks=[];
     doneTasks=[];
-    arcivedTasks=[];
+    archiveTasks=[];
 
     emit(AppGetDataBaseLoadingStates());
      database.rawQuery('SELECT * FROM tasks').then((value) {
        value.forEach((element) {
-        if(element['status']=='new'){
+        if(element['status']=='new')
           newTasks.add(element);
-        }
-        if(element['status']=='done'){
+
+        else if(element['status']=='done')
           doneTasks.add(element);
-        }
-        if(element['status']=='archived'){
-          arcivedTasks.add(element);
-        }
+
+        else (element['status']=='archive');
+          archiveTasks.add(element);
+
       });
        emit(AppGetDataBaseStates());
 
@@ -98,10 +98,10 @@ class AppCubit extends Cubit<AppState>{
   void updatedatabase({
     required String status,
     required int id,
-}){
+})async{
      database.rawUpdate(
         'UPDATE tasks SET status = ? WHERE id = ?',
-        ['updated status', tasks[id]]).then((value) {
+        ['$status', id]).then((value) {
           getdatabase(database);
           emit(AppUpDateDataBaseStates());
      });

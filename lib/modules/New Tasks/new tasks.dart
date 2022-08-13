@@ -14,7 +14,7 @@ class new_tasks extends StatelessWidget {
       builder:(context,state) {
         var tasks = AppCubit.get(context).newTasks;
         return ListView.separated(
-          itemBuilder: (context, index) => BUILDITEMTASKS(tasks, index),
+          itemBuilder: (context, index) => BUILDITEMTASKS(tasks, index,context),
           separatorBuilder: (context, index) =>
               Padding(
                 padding: const EdgeInsets.only(left: 20),
