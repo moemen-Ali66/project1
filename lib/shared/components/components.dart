@@ -49,7 +49,7 @@ Widget default_Form({
          border: OutlineInputBorder(),
       ),
    ),);
-   Widget BUILDITEMTASKS(tasks,index,context)=>Padding(
+   Widget BUILDITEMTASKS(Map model,context)=>Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
          children: [
@@ -59,25 +59,25 @@ Widget default_Form({
                      radius: 40.0,
                      child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Text(tasks[index]['date'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
+                        child: Text(model['date'],style: TextStyle(fontSize:20.0,fontWeight: FontWeight.bold ),),
                      ),
                   ),
                   SizedBox(width: 20.0,),
                   Column(children: [
-                     Text(tasks[index]['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
-                     Text(tasks[index]['time'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
+                     Text(model['title'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 20.0),),
+                     Text(model['time'],style: TextStyle(fontSize: 20.0,color: Colors.grey),),
 
                   ],),
                   SizedBox(width: 10.0,),
                   IconButton(onPressed: (){
-                     AppCubit.get(context).updatedatabase(status: 'done', id: tasks['id']);
+                     AppCubit.get(context).updatedatabase(status: 'done', id: model['id']);
 
                   },
                      icon:Icon(Icons.check_box),
                      color: Colors.green,),
                   SizedBox(width: 10,),
                   IconButton(onPressed: (){
-                     AppCubit.get(context).updatedatabase(status: 'archive', id: tasks['id']);
+                     AppCubit.get(context).updatedatabase(status: 'archive', id: model['id']);
 
                   },
                      icon:Icon(Icons.archive),

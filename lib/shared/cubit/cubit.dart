@@ -87,8 +87,7 @@ class AppCubit extends Cubit<AppState>{
         else if(element['status']=='done')
           doneTasks.add(element);
 
-        else (element['status']=='archive');
-          archiveTasks.add(element);
+        else archiveTasks.add(element);
 
       });
        emit(AppGetDataBaseStates());
